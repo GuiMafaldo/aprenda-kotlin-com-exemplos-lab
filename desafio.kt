@@ -2,20 +2,45 @@
 
 enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
 
-class Usuario
+class Usuario(val nome: String)
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
+data class ConteudoEducacional(val nome: String, val duracao: Int = 60)
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+data class Formacao(val nome: String, val nivel: Nivel, val conteudos: List<ConteudoEducacional>) {
 
     val inscritos = mutableListOf<Usuario>()
     
     fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+        inscritos.add(usuario)
+        println("${usuario.nome} foi matriculado na formação $nome.")
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    // Criando usuários
+    val usuario1 = Usuario("Guilherme")
+    val usuario2 = Usuario("Maria")
+    val usuario3 = Usuario("João")
+
+    // Criando conteúdos educacionais
+    val conteudo1 = ConteudoEducacional("Kotlin Básico", 120)
+    val conteudo2 = ConteudoEducacional("Kotlin Intermediário", 180)
+    val conteudo3 = ConteudoEducacional("Kotlin Avançado", 240)
+
+    // Criando formações
+    val formacao1 = Formacao("Formação Kotlin", Nivel.BASICO, listOf(conteudo1, conteudo2))
+    val formacao2 = Formacao("Formação Kotlin Avançado", Nivel.DIFICIL, listOf(conteudo3))
+
+    // Matriculando usuários nas formações
+    formacao1.matricular(usuario1)
+    formacao1.matricular(usuario2)
+    formacao2.matricular(usuario3)
+
+    // Exibindo inscritos em cada formação
+    println("Inscritos na ${formacao1.nome}:")
+    formacao1.inscritos.forEach { println(it.nome) }
+
+    println("Inscritos na ${formacao2.nome}:")
+    formacao2.inscritos.forEach { println(it.nome) }
 }
+
